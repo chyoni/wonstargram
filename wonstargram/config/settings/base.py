@@ -59,19 +59,27 @@ DJANGO_APPS = [
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django.contrib.humanize', # Handy template tags
+    'django.contrib.humanize',  # Handy template tags
     'django.contrib.admin',
 ]
 THIRD_PARTY_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'rest_framework',
+    'allauth.socialaccount.providers.facebook',
+    'rest_framework',  # REST framework
+    'taggit',
+    'taggit_serializer',
+    'rest_auth',
+    'rest_framework.authtoken',
+    'rest_auth.registration',
+    'corsheaders',  # To accept requests from React
 ]
 LOCAL_APPS = [
     'wonstargram.users.apps.UsersAppConfig',
     # Your stuff: custom apps go here
     'wonstargram.images.apps.ImagesConfig',
+    'wonstargram.notifications.apps.NotificationsConfig'
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -92,10 +100,7 @@ AUTHENTICATION_BACKENDS = [
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#auth-user-model
 AUTH_USER_MODEL = 'users.User'
-# https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = 'users:redirect'
-# https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = 'account_login'
+
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -130,6 +135,7 @@ AUTH_PASSWORD_VALIDATORS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -146,6 +152,7 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#std:setting-STATICFILES_DIRS
 STATICFILES_DIRS = [
     str(APPS_DIR.path('static')),
+    str(ROOT_DIR.path('frontend', 'build', 'static'))
 ]
 # https://docs.djangoproject.com/en/dev/ref/contrib/staticfiles/#staticfiles-finders
 STATICFILES_FINDERS = [
@@ -209,7 +216,7 @@ FIXTURE_DIRS = (
 # https://docs.djangoproject.com/en/dev/ref/settings/#session-cookie-httponly
 SESSION_COOKIE_HTTPONLY = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#csrf-cookie-httponly
-CSRF_COOKIE_HTTPONLY = True
+CSRF_COOKIE_HTTPONLY = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#secure-browser-xss-filter
 SECURE_BROWSER_XSS_FILTER = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#x-frame-options
@@ -238,9 +245,9 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_REQUIRED = False
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_VERIFICATION = 'none'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_ADAPTER = 'wonstargram.users.adapters.AccountAdapter'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
@@ -249,3 +256,57 @@ SOCIALACCOUNT_ADAPTER = 'wonstargram.users.adapters.SocialAccountAdapter'
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+TAGGIT_CASE_INSENSITIVE = True
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+REST_USE_JWT = True
+ACCOUNT_LOGOUT_ON_GET = True
+SOCIALACCOUNT_QUERY_EMAIL = True
+CORS_ORIGIN_ALLOW_ALL = True
+JWT_AUTH = {
+    'JWT_VERIFY_EXPIRATION': False
+}
+
+SOCIALACCOUNT_PROVIDERS = {
+    'facebook': {
+        'SCOPE': [
+            'email',
+            'public_profile',
+            'user_friends'
+        ],
+        'FIELDS': [
+            'id',
+            'email',
+            'name',
+            'first_name',
+            'last_name',
+            'verified',
+            'locale',
+            'timezone',
+            'link',
+            'gender',
+            'updated_time',
+            'picture'
+        ],
+        'AUTH_PARAMS': {
+            # 'auth_type': 'reauthenticate'
+        },
+        'METHOD': 'oauth2',
+        # 'LOCALE_FUNC': 'path.to.callable',
+        'VERIFIED_EMAIL': True,
+        'VERSION': 'v2.4'
+    }
+}
+
+REST_AUTH_REGISTER_SERIALIZERS = {
+    'REGISTER_SERIALIZER': 'wonstargram.users.serializers.SignUpSerializer'
+}

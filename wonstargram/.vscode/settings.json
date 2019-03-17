@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\Admin\\.virtualenvs\\wonstargram-qg05gDZ3\\Scripts\\python.exe"
+    "python.pythonPath": "C:\\Users\\Admin\\.virtualenvs\\wonstargram-qg05gDZ3\\Scripts\\python.exe",
+    "python.linting.pylintEnabled": true
 }
