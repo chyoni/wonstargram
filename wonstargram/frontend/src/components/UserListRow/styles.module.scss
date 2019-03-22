@@ -1,0 +1,33 @@
+@import "../../config/variables";
+
+.container {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $light-grey;
+  .column {
+    display: flex;
+    align-items: center;
+    .user {
+      margin-left: 10px;
+      .username {
+        font-size: 15px;
+        font-weight: 600;
+      }
+    }
+    .bigAvatar {
+      width: 55px;
+      border-radius: 50%;
+    }
+    .avatar {
+      width: 30px;
+      border-radius: 50%;
+    }
+    .followButton {
+      @include blueButton();
+    }
+  }
+}

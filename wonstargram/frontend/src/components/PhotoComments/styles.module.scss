@@ -1,0 +1,22 @@
+@import "../../config/variables";
+
+.PhotoComments {
+  .creatorField {
+    margin-bottom: 15px;
+  }
+  .commentField {
+    margin-bottom: 5px;
+  }
+}
+
+.oneToOneComment {
+  margin-bottom: 6px;
+  .creator {
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  .comments {
+    font-size: 14px;
+  }
+}

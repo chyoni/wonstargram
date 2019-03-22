@@ -1,0 +1,25 @@
+@import "../../config/variables";
+
+.commentBox {
+  border-top: 1px solid $light-grey;
+  padding: 15px 0;
+  @include breakpoint("phone") {
+    display: none;
+  }
+  .input {
+    border: 0;
+    height: 20px;
+    resize: none;
+    width: 100%;
+    font-size: 17px;
+    @import url("https://fonts.googleapis.com/css?family=Barlow:400,700|Roboto:400,700");
+    font-family: "Barlow", sans-serif;
+    font-family: "Roboto", sans-serif;
+    &:focus {
+      outline: none;
+    }
+    &::placeholder {
+      color: $light-grey;
+    }
+  }
+}

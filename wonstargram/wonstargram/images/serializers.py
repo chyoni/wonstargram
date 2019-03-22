@@ -64,6 +64,7 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
     comments = CommentSerializer(many=True)  # Nested Serialize
     creator = FeedUserSerializer()
     tags = TagListSerializerField()
+    is_liked = serializers.SerializerMethodField()
 
     class Meta:
         model = models.Image
@@ -76,8 +77,19 @@ class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
             'like_count',
             'creator',
             'tags',
-            'created_at'
+            'natural_time',
+            'is_liked'
         )
+
+    def get_is_liked(self, obj):  # 내가 이미지를 좋아요눌렀는지 안눌렀는지  DB에서 가져올때
+        if 'request' in self.context:
+            request = self.context['request']
+            try:
+                models.Like.objects.get(creator__id=request.user.id, image__id=obj.id)
+                return True
+            except models.Like.DoesNotExist:
+                return False
+        return False
 
 
 class InputImageSerializer(serializers.ModelSerializer):

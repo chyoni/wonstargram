@@ -1,6 +1,5 @@
 @import "reset-css";
 @import "../../config/variables";
-@import url("https://fonts.googleapis.com/css?family=Barlow:400,700|Roboto:400,700");
 
 body {
   position: absolute;
@@ -9,6 +8,7 @@ body {
   display: flex;
   flex-direction: column;
   background-color: $bg-color;
+  @import url("https://fonts.googleapis.com/css?family=Barlow:400,700|Roboto:400,700");
   font-family: "Barlow", sans-serif;
   font-family: "Roboto", sans-serif;
 }
