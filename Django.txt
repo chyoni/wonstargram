@@ -1,0 +1,80 @@
+Part of a Django
+
+1.Settings
+2.URLs
+3.Apps
+
+1. Settings 
+
+1-1. 장고를 커스터마이징함(cookiecutter사용)
+1-2. 필요한 모듈들을 설치함
+1-3. 디폴트로 깔리는 필요없는 것들을 지움
+1-4. 이후에 이를 실행하면 장고가 세팅을 확인하고 이들을 불러옴
+
+
+2.URLs 
+
+장고가 가지고있는 URL들이 있음 (우리가 설정한거)
+클라이언트가 특정 URL로 접속하면 장고는 자기가 가지고있는(우리가 장고에게 할당한) URL 을 확인하고 해당 
+URL이 있으면 그 페이지를 클라이언트에게 뿌려줌 정확히는 해당 URL에 각각 function이 있고 그 function을 실행하는거
+
+3.Apps
+
+저 function이 들어있는 곳이 바로 App임 App은 그냥 쉽게말해서 api임
+App은 하나를 크게만드는게 아니고 작게작게 쪼개서 만들어야 함 예를들어, 쇼핑몰을 만든다면 
+그 쇼핑몰을 만들때 사용되는 앱은 user,product,images,info,profile 등등
+앱들간에는 상호연관된 앱들도 있고 아예 상관없는 앱들도 있음 
+App만드는 커맨드 명령 => django-admin startapp [Appname]
+
+
+
+cookiecutter 로 Django를 실행하면 requirements에 local,production,base 가 있는데 
+local은 우리가 프로그래밍할때 사용되는 설정들이고 production은 실제 서비스에서 사용되는 설정이라고 생각하자
+
+----------------------------------------------------------------------
+
+Part of a Django App
+
+1.Models
+2.URLs
+3.Views
+
+
+1.Models
+말 그대로 데이터베이스의 Model이랑 같은 의미임
+필드,속성,속성값의 정의 등등 어떠한 데이터에 대한 설명(정의)이라고 보면 됨
+예) Model of User App 
+ID,Email,Password 등등의 어떤 정보들을 담고있는 유저 모델 
+이거를 정의해서 DB에 넘겨주면 DB는 그 정보를 토대로 모델을 만드는것
+
+2.URLs
+
+어플리케이션의 URL을 의미, 장고 URL은 전체 App에서 모든 URL을 불러옴 
+
+
+3.Views
+
+= Python function 
+view는 URL이 있어야 작동을 함 
+
+
+누군가 URL을 요청 -> 장고가 그 URL을 가지고있다면 -> 장고는 view를 실행함 
+-> view는 장고에게 무엇을해야할지 알려주는역할
+
+쉽게말해서 어떤 Url을 요청 그 Url이 장고가 가지고있다면 view가 실행됨 view는 function임 
+즉 그 Url에 가면 어떤 행동을 하라 라는 function을 실행하는거임 
+(어떤 폼이보인다던지,어떤 목록이 보인다던지, 뭐 아무튼 등등)
+
+
+----------------------------------------------------------------------
+
+
+Django Models
+
+장고모델은 파이썬 클래스 
+장고모델이 DB로 들어가서 저절로 만들어짐 (ORM)
+
+migration => 장고에서 모델을 재정의하거나 새로만들거나 뭐 아무튼 업데이트가 되었을 때 장고에게 알려줘야함 
+그전에는 디비는 그 내용을 모룸 
+
+python manage.py migrations -> python manage.py migrate
